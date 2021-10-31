@@ -1,4 +1,7 @@
 def reset():
+
+    print("reset() called")
+
     # reset player ctp this round
     for player in live_players:
         player.ctp_this_round = 0

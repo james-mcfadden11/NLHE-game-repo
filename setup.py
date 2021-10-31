@@ -1,5 +1,7 @@
 def setup():
 
+    print("setup() called")
+
     import random
 
     suits = ['h','d','c','s']
@@ -58,6 +60,8 @@ def setup():
             return print(self.name)
             # return f"{self.name}'s hand is {self.hand[0]} {self.hand[1]} and stack is {self.stack}"
 
+        # pip = put in pot
+        # ctp = contributed to pot
         def pip(self, amount):
             self.amount = amount
             self.ctp = self.ctp + self.amount

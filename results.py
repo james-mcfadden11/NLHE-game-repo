@@ -1,5 +1,7 @@
 def results():
 
+    print("results() called")
+
     hand_scores = [player.hand_score for player in live_players]
 
     if hand_scores.count(max(hand_scores)) == 1:

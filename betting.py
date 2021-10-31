@@ -1,5 +1,7 @@
 def betting():
 
+    print("betting() called")
+
     counter = 0
 
     global live_players
@@ -98,15 +100,3 @@ def betting():
     print(f'there are {len(live_players)} live players')
     print(f'live players ctp are {live_players_ctp}')
     print(f'live players ctp this round are {live_players_ctp_this_round}')
-
-
-def reset():
-    # reset player ctp this round
-    for player in live_players:
-        player.ctp_this_round = 0
-
-    # resert current bet and prev bet
-    current_bet = 0
-    prev_bet = 0
-
-    

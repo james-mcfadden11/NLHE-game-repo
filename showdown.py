@@ -1,5 +1,7 @@
 def showdown():
 
+    print("showdown() called")
+
     for player in live_players:
 
         # combine player hand with board to make a 7-card hand
