@@ -4,42 +4,63 @@
 # loop for changing table positions
 # collect results of hands, automate some analysis of results
 
-# connect to modules and functions
-from setup import setup
-from betting import betting
-from reset import reset
-from reorder_for_flop import reorder_for_flop
-from showdown import showdown
-from results import results
-from test import test
-
-
 # loops for game flow:
 # number of hands to play / "play another hand?"
-# change user position 
+# change user position
+
+from GameState import GameState
+from Player import Player
+from Deck import Deck
+from Card import Card
+
+import random
 
 
-print("Starting game!")
+deck = Deck()
+deck.shuffle()
 
-setup()
+# instantiate players, deal cards
+p1 = Player('p1', 1, [deck.deal(), deck.deal()])  # small blind
+p2 = Player('p2', 2, [deck.deal(), deck.deal()])  # big blind
+p3 = Player('p3', 3, [deck.deal(), deck.deal()])  # UTG
+p4 = Player('p4', 4, [deck.deal(), deck.deal()])  # MP
+p5 = Player('p5', 5, [deck.deal(), deck.deal()])  # CO
+p6 = Player('p6', 6, [deck.deal(), deck.deal()])  # button
 
-betting()
+game_state = GameState([p3, p4, p5, p6, p1, p2])
 
-reorder_for_flop()
-reset()
-board.append(deck.deal())
-board.append(deck.deal())
-board.append(deck.deal())
-betting()
+# post blinds
+game_state.add_to_pot(p1.pip(1))
+game_state.add_to_pot(p2.pip(2))
 
-reset()
-board.append(deck.deal())
-betting()
 
-reset()
-board.append(deck.deal())
-betting()
+# betting() pre-flop
 
-showdown()
 
-results()
+game_state.reset_ctp_and_bet()
+game_state.reorder_for_flop()
+
+game_state.add_card_to_board(deck.deal())
+game_state.add_card_to_board(deck.deal())
+game_state.add_card_to_board(deck.deal())
+
+
+# betting() flop
+
+
+game_state.reset_ctp_and_bet()
+game_state.add_card_to_board(deck.deal())
+
+
+# betting() turn
+
+
+game_state.reset_ctp_and_bet()
+game_state.add_card_to_board(deck.deal())
+
+
+# betting() river
+
+
+# showdown()
+# results()

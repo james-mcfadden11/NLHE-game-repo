@@ -26,17 +26,19 @@ def betting():
 
                 player.__str__()
 
-                randomizer = random.randint(1, 100)  # to make decisions on test version
+                # random number generator to make decisions on test version
+                randomizer = random.randint(1, 100)
                 #print(f'randomizer is {randomizer}')
 
-                if (current_bet - player.ctp_this_round) == 0:  # if player is not facing a bet: check or bet
-
-                    if randomizer < 50:  # check 50% of time
+                # if player is not facing a bet: check or bet
+                if (current_bet - player.ctp_this_round) == 0:
+                    # check 50% of time
+                    if randomizer < 50:
                         player.pip(0)
                         print('checks')
-
+                    # valid bet is > 2 and less than player stack
                     else:
-                        bet = random.randint((2 + player.ctp_this_round), player.stack)  # valid bet is > 2 and less than player stack
+                        bet = random.randint((2 + player.ctp_this_round), player.stack)
                         # special case: BB facing all limps must raise to at least 2 BB's if raising
                         player.pip(bet)
                         prev_bet = current_bet
@@ -44,31 +46,30 @@ def betting():
                         print(f'bets {bet}')
                         print(f'previous bet is now {prev_bet}')
                         print(f'current bet is now {current_bet}')
-
-                elif current_bet >= (player.stack + player.ctp_this_round):  # if players is facing an all-in bet: call or fold
-
-                    if randomizer > 50:  # fold
+                # if player is facing an all-in bet: call or fold
+                elif current_bet >= (player.stack + player.ctp_this_round):
+                    # fold
+                    if randomizer > 50:
                         player.fold()
                         print('folds')
-
-                    else:  # call
+                    # call
+                    else:
                         player.pip(current_bet - player.ctp_this_round)
                         print(f'calls {current_bet}')
-
-                else:  # if player is facing a bet which is not all-in: fold, call, raise
-
-                    if randomizer > 75:  # fold
+                # if player is facing a bet which is not all-in: fold, call, raise
+                else:
+                    # fold
+                    if randomizer > 75:
                         player.fold()
                         print('folds')
-
-                    elif 33 < randomizer <= 75:  # call
+                    # call
+                    elif 33 < randomizer <= 75:
                         player.pip(current_bet - player.ctp_this_round)
                         print(f'calls {current_bet}')
-
-                    else:  # raise
+                    # raise
+                    else:
                         # minimum raise size is current_bet + (current_bet - prev_bet)
                         # maximum raise is all-in
-
                         try:
                             raize = random.randint((current_bet + (current_bet - prev_bet)), (player.stack + player.ctp_this_round))
                         except:
@@ -76,7 +77,8 @@ def betting():
 
                         player.pip(raize - player.ctp_this_round)
 
-                        prev_bet = current_bet  # re-define current bet to previous bet
+                        # re-define current bet to previous bet
+                        prev_bet = current_bet
                         current_bet = raize
 
                         print(f'raises to {raize}')
@@ -91,6 +93,7 @@ def betting():
 
             counter += 1
 
+            #if something is wrong
             if counter > 30:
                 break
 
