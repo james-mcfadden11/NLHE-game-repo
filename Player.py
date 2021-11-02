@@ -1,5 +1,3 @@
-from Deck import Deck
-from Card import Card
 
 class Player:
     def __init__(self, name, hand, position, ctp = 0, is_live = True, stack = 200, ctp_this_round = 0):
@@ -14,7 +12,7 @@ class Player:
         # self.hand_suits = [card.suit for card in self.hand]
 
     def __str__(self):
-        return print(self.name)
+        return self.name
 
     # pip --> put in pot
     # ctp --> contributed to pot

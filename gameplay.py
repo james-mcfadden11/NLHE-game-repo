@@ -15,7 +15,6 @@ from Card import Card
 
 import random
 
-
 deck = Deck()
 deck.shuffle()
 
@@ -33,34 +32,35 @@ game_state = GameState([p3, p4, p5, p6, p1, p2])
 game_state.add_to_pot(p1.pip(1))
 game_state.add_to_pot(p2.pip(2))
 
+game_state.print_status()
 
-# betting() pre-flop
+# pre-flop betting
+game_state.betting()
 
-
-game_state.reset_ctp_and_bet()
+game_state.reset_ctp_and_current_bet()
 game_state.reorder_for_flop()
 
+# deal flop
 game_state.add_card_to_board(deck.deal())
 game_state.add_card_to_board(deck.deal())
 game_state.add_card_to_board(deck.deal())
 
+game_state.print_status()
 
-# betting() flop
+# flop betting
+game_state.betting()
 
-
-game_state.reset_ctp_and_bet()
+game_state.reset_ctp_and_current_bet()
 game_state.add_card_to_board(deck.deal())
 
+# turn betting
+game_state.betting()
 
-# betting() turn
-
-
-game_state.reset_ctp_and_bet()
+game_state.reset_ctp_and_current_bet()
 game_state.add_card_to_board(deck.deal())
 
-
-# betting() river
-
+# river betting
+game_state.betting()
 
 # showdown()
 # results()
