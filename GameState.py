@@ -14,7 +14,7 @@ class GameState:
     def update_live_players(self):
         self.live_players = [player for player in self.live_players if player.is_live == True]
         self.live_players_ctp = [player.ctp for player in self.live_players]
-        self.set_live_players_ctp_this_round = [player.ctp_this_round for player in self.live_players]
+        self.live_players_ctp_this_round = [player.ctp_this_round for player in self.live_players]
 
     def add_to_pot(self, amount):
         self.pot += amount
@@ -29,16 +29,16 @@ class GameState:
         self.prev_bet = 0
 
     def reorder_for_flop(self):
-        if self.live_players[5].is_live:
+        if self.live_players[-1].name == 'p2':
             self.live_players.insert(0, self.live_players.pop())
-        if self.live_players[4].is_live:
+        if self.live_players[-1].name == 'p1':
             self.live_players.insert(0, self.live_players.pop())
 
     def print_status(self):
         print("pot: " + str(self.pot))
         print("board: " + str([card.__str__() for card in self.board]))
         print("live players: " + str([player.__str__() for player in self.live_players]))
-        print("--------------------------------------------")
+        print("---------------------------------")
 
     def betting(self):
         round = 0
@@ -56,7 +56,8 @@ class GameState:
 
                     # random number generator to make decisions on test version
                     randomizer = random.randint(1, 100)
-                    print(f'randomizer is {randomizer}')
+                    # print(f'randomizer: {randomizer}')
+
 
                     # SITUATION 1: player is not facing a bet: check or bet
                     if (self.current_bet - player.ctp_this_round) == 0:
@@ -64,24 +65,31 @@ class GameState:
                             bet = player.human_action()
                             self.add_to_pot(player.pip(bet))
                             self.prev_bet = self.current_bet
-                            self.current_bet = bet
 
                         else: # computer player
                             # check 50% of time
                             if randomizer < 50:
                                 print('checks')
+                                bet = 0
                             # bet 50% of time
                             # valid bet is > 2 and less than player stack
                             else:
+                                # for de-bugging
+                                print(f"{player}'s stack: {player.stack}")
+                                print(f"{player} has added {player.ctp_this_round} to to pot this round")
                                 # special case: BB facing all limps must raise to at least 2 BB's if raising
-                                bet = random.randint((2 + player.ctp_this_round), player.stack)
+                                ############ fix this ----> ##############
+                                bet = random.randint((player.ctp_this_round), player.stack)
+                                ##########################################
                                 self.add_to_pot(player.pip(bet))
                                 self.prev_bet = self.current_bet
-                                self.current_bet = bet
+
+                        self.current_bet = bet
 
                         print(f'bets {bet}')
                         print(f'previous bet is now {self.prev_bet}')
                         print(f'current bet is now {self.current_bet}')
+
 
                     # SITUATION 2: player is facing an all-in bet: call or fold
                     elif self.current_bet >= (player.stack + player.ctp_this_round):
@@ -93,7 +101,6 @@ class GameState:
                         else:
                             self.add_to_pot(player.pip(self.current_bet - player.ctp_this_round))
                             print(f'calls {self.current_bet}')
-
 
 
                     # SITUATION 3: player is facing a bet which is not all-in: fold, call, or raise
@@ -122,12 +129,12 @@ class GameState:
                             self.current_bet = raise_to
 
                             print(f'raises to {raise_to}')
-                            print(f'previous bet is now {self.prev_bet}')
-                            print(f'current bet is now {self.current_bet}')
+                            print(f'previous bet: {self.prev_bet}')
+                            print(f'current bet: {self.current_bet}')
 
-
+                    print("---------------------------------")
                     self.update_live_players()
 
-                round += 1
+                print("---------------------------------")
 
-                print("--------------------------------------------")
+                round += 1

@@ -1,4 +1,14 @@
 
+
+
+
+
+
+
+
+
+
+
     round = 0
 
     if live_players[0].ctp < 200 and len(live_players) > 1:
