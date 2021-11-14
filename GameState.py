@@ -38,6 +38,7 @@ class GameState:
         print("pot: " + str(self.pot))
         print("board: " + str([card.__str__() for card in self.board]))
         print("live players: " + str([player.__str__() for player in self.live_players]))
+        print("--------------------------------------------")
 
     def betting(self):
         round = 0
@@ -51,30 +52,38 @@ class GameState:
                     if len(self.live_players) == 1 or (len(set(self.live_players_ctp_this_round)) == 1 and round > 0):
                         break
 
-                    player.__str__()
+                    print(f'{player.__str__()} in position {player.position_poker}')
 
                     # random number generator to make decisions on test version
                     randomizer = random.randint(1, 100)
                     print(f'randomizer is {randomizer}')
 
-                    # if player is not facing a bet: check or bet
+                    # SITUATION 1: player is not facing a bet: check or bet
                     if (self.current_bet - player.ctp_this_round) == 0:
-                        # check 50% of time
-                        if randomizer < 50:
-                            print('checks')
-                        # bet 50% of time
-                        # valid bet is > 2 and less than player stack
-                        else:
-                            # special case: BB facing all limps must raise to at least 2 BB's if raising
-                            bet = random.randint((2 + player.ctp_this_round), player.stack)
+                        if player.is_human:
+                            bet = player.human_action()
                             self.add_to_pot(player.pip(bet))
                             self.prev_bet = self.current_bet
                             self.current_bet = bet
-                            print(f'bets {bet}')
-                            print(f'previous bet is now {self.prev_bet}')
-                            print(f'current bet is now {self.current_bet}')
 
-                    # if player is facing an all-in bet: call or fold
+                        else: # computer player
+                            # check 50% of time
+                            if randomizer < 50:
+                                print('checks')
+                            # bet 50% of time
+                            # valid bet is > 2 and less than player stack
+                            else:
+                                # special case: BB facing all limps must raise to at least 2 BB's if raising
+                                bet = random.randint((2 + player.ctp_this_round), player.stack)
+                                self.add_to_pot(player.pip(bet))
+                                self.prev_bet = self.current_bet
+                                self.current_bet = bet
+
+                        print(f'bets {bet}')
+                        print(f'previous bet is now {self.prev_bet}')
+                        print(f'current bet is now {self.current_bet}')
+
+                    # SITUATION 2: player is facing an all-in bet: call or fold
                     elif self.current_bet >= (player.stack + player.ctp_this_round):
                         # fold
                         if randomizer > 50:
@@ -85,7 +94,9 @@ class GameState:
                             self.add_to_pot(player.pip(self.current_bet - player.ctp_this_round))
                             print(f'calls {self.current_bet}')
 
-                    # if player is facing a bet which is not all-in: fold, call, or raise
+
+
+                    # SITUATION 3: player is facing a bet which is not all-in: fold, call, or raise
                     else:
                         # fold
                         if randomizer > 75:
@@ -114,6 +125,9 @@ class GameState:
                             print(f'previous bet is now {self.prev_bet}')
                             print(f'current bet is now {self.current_bet}')
 
-                        round += 1
 
                     self.update_live_players()
+
+                round += 1
+
+                print("--------------------------------------------")

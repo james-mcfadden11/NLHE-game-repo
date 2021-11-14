@@ -1,8 +1,10 @@
 
 class Player:
-    def __init__(self, name, hand, position, ctp = 0, is_live = True, stack = 200, ctp_this_round = 0):
+    def __init__(self, name, hand, position_numeric, position_poker, is_human, ctp = 0, is_live = True, stack = 200, ctp_this_round = 0):
         self.name = name
-        self.position = position
+        self.position_numeric = position_numeric
+        self.position_poker = position_poker
+        self.is_human = is_human
         self.is_live = is_live  # Boolean
         self.hand = hand  # composed of 2 card objects supplied by deck.deal()
         self.stack = stack  # integer, default 100
@@ -25,3 +27,28 @@ class Player:
 
     def fold(self):
         self.is_live = False
+
+    def human_action(self):
+        print("Enter your choice: check (c) or bet (b)")
+        selection = input()
+        if selection == "c":
+            print("checks")
+            bet = 0
+        elif selection == "b":
+            while True:
+                print("Enter a valid bet size as an integer:")
+                try:
+                    bet = input()
+                    bet = int(bet)
+                    if bet > 2 and bet < self.stack:
+                        break
+                    else:
+                        continue
+                except:
+                    continue
+        return bet
+
+
+
+
+    # def computer_action(self):
