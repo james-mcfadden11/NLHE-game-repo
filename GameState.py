@@ -56,7 +56,7 @@ class GameState:
 
                     print(f'{player.__str__()} in position {player.position_poker}')
 
-                    self.update_game_state(player.act(self.current_bet, self.prev_bet, self.live_players))
+                    self.update_game_state(player.act(self.current_bet, self.prev_bet, self.live_players, self.pot))
 
                     print("---------------------------------")
 

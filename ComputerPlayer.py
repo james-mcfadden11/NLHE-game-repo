@@ -8,7 +8,7 @@ class ComputerPlayer(Player):
 
     # inherits all methods from Player class, and overrides act() methods
 
-    def act(self, current_bet, prev_bet, live_players):
+    def act(self, current_bet, prev_bet, live_players, pot):
 
         # random number generator to make decisions on test version
         randomizer = random.randint(1, 100)

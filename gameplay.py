@@ -1,7 +1,7 @@
 # future steps:
-# change betting function to have user inputs and check for validity
+# showdown and results
 # loops for game flow:
-#   number of hands to play / "play another hand?"
+#   number of hands to play / "play another hand?" / keep track of win/loss
 #   change user position
 # create web app
 # collect results of hands, automate some analysis of results
@@ -12,8 +12,6 @@ from Deck import Deck
 from Card import Card
 from ComputerPlayer import ComputerPlayer
 from HumanPlayer import HumanPlayer
-
-import random
 
 hand = 1
 
@@ -26,21 +24,12 @@ for i in range(50000):
     deck.shuffle()
 
     # instantiate players, deal cards
-    # p1 = Player('p1', [deck.deal(), deck.deal()], 1, 'sb', True)  # small blind
-    # p2 = Player('p2', [deck.deal(), deck.deal()], 2, 'bb', True)  # big blind
-    # p3 = Player('p3', [deck.deal(), deck.deal()], 3, 'utg', True)  # UTG
-    # p4 = Player('p4', [deck.deal(), deck.deal()], 4, 'middle', True)  # MP
-    # p5 = Player('p5', [deck.deal(), deck.deal()], 5, 'cut-off', True)  # CO
-    # p6 = Player('p6', [deck.deal(), deck.deal()], 6, 'button', True)  # button
-
     p1 = ComputerPlayer('p1', [deck.deal(), deck.deal()], 1, 'sb')  # small blind
     p2 = ComputerPlayer('p2', [deck.deal(), deck.deal()], 2, 'bb')  # big blind
     p3 = ComputerPlayer('p3', [deck.deal(), deck.deal()], 3, 'utg')  # UTG
     p4 = ComputerPlayer('p4', [deck.deal(), deck.deal()], 4, 'middle')  # MP
     p5 = ComputerPlayer('p5', [deck.deal(), deck.deal()], 5, 'cut-off')  # CO
     p6 = ComputerPlayer('p6', [deck.deal(), deck.deal()], 6, 'button')  # button
-
-
 
     game_state = GameState([p3, p4, p5, p6, p1, p2])
 
