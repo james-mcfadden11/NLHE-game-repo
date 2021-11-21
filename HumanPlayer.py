@@ -23,10 +23,57 @@ class HumanPlayer(Player):
                 if action == "c":
                     break
                 elif action == "b":
-                    # betting logic - refer to ComputerPlayer for validation
+                    # special case: BB facing all limps must raise to at least 2 BB's if raising
+                    if self.name == "p2" and live_players[-1].name =="p2" and current_bet == 2:
+                        while True:
+                            try:
+                                raise_to = int(input("Enter your bet amount: "))
+                                if (raise_to >= 4 and raise_to < self.stack):
+                                    self.pip(raise_to - self.ctp_this_round)
+                                    break
+                                elif (raise_to == self.stack):
+                                    self.pip(self.stack)
+                                    break
+                                else:
+                                    print("Please enter a valid bet amount.")
+                            except:
+                                print("Please enter a valid bet amount.")
+
+                            prev_bet = current_bet
+                            current_bet = raise_to
+
+                            print(f'raises to {raise_to}')
+                            print(f'previous bet: {prev_bet}')
+                            print(f'current bet: {current_bet}')
+
+                    else:
+                        while True:
+                            try:
+                                bet = int(input("Enter your bet amount: "))
+                                if (bet >= 2 and bet <= self.stack):
+                                    self.pip(bet)
+                                    break
+                                # special case of being left with 1 small blind
+                                elif (bet == 1 and self.stack == 1):
+                                    self.pip(bet)
+                                    break
+                                else:
+                                    print("Please enter a valid bet amount.")
+                            except:
+                                print("Please enter a valid bet amount.")
+
+                        prev_bet = current_bet
+                        current_bet = bet
+
+                    print(f'previous bet: {prev_bet}')
+                    print(f'current bet: {current_bet}')
+
                     break
+
                 else:
                     print("Please enter a valid selection.")
+                    print("Enter 'C' for check")
+                    print("Enter 'B' for bet")
 
 
         # SITUATION 2: player is facing an all-in bet: call or fold
@@ -38,13 +85,15 @@ class HumanPlayer(Player):
                 action = input("Enter your choice: ").lower()
 
                 if action == "c":
-                    self.pip(current_bet)
+                    self.pip(current_bet - self.ctp_this_round)
                     break
                 elif action == "f":
                     self.fold()
                     break
                 else:
                     print("Please enter a valid selection.")
+                    print("Enter 'C' for call")
+                    print("Enter 'F' for fold")
 
 
         # SITUATION 3: player is facing a bet which is not all-in: fold, call, or raise
@@ -57,13 +106,30 @@ class HumanPlayer(Player):
                 action = input("Enter your choice: ").lower()
 
                 if action == "c":
-                    self.pip(current_bet)
+                    self.pip(current_bet - self.ctp_this_round)
                     break
                 elif action == "r":
-                    # raising logic - refer to ComputerPlayer for validation
+                    while True:
+                        try:
+                            raise_to = int(input("Enter your raise amount: "))
+                            if (raise_to >= (current_bet + (current_bet - prev_bet)) and raise_to < self.stack):
+                                self.pip(raise_to - self.ctp_this_round)
+                                break
+                            elif (raise_to == self.stack):
+                                self.pip(self.stack)
+                                break
+                            else:
+                                print("Please enter a valid selection.")
+                                print("Enter 'C' for call")
+                                print("Enter 'R' for raise")
+                                print("Enter 'F' for fold")
+
                     break
                 elif action == "f":
                     self.fold()
                     break
                 else:
                     print("Please enter a valid selection.")
+                    print("Enter 'C' for call")
+                    print("Enter 'R' for raise")
+                    print("Enter 'F' for fold")

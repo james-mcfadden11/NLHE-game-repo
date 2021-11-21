@@ -26,7 +26,7 @@ class ComputerPlayer(Player):
                 # valid bet is > 2 and <= player stack
                 # special case: BB facing all limps must raise to at least 2 BB's if raising
                 if self.name == "p2" and live_players[-1].name =="p2" and current_bet == 2:
-                    raise_to = random.randrange(2, self.stack, 2)
+                    raise_to = random.randrange(4, self.stack)
                     self.pip(raise_to - self.ctp_this_round)
 
                     prev_bet = current_bet
