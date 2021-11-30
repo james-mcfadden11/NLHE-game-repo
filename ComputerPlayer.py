@@ -3,8 +3,8 @@ from Player import Player
 import random
 
 class ComputerPlayer(Player):
-    def __init__(self, name, hand, position_numeric, position_poker, ctp = 0, is_live = True, stack = 200, ctp_this_round = 0):
-        super().__init__(name, hand, position_numeric, position_poker, ctp = 0, is_live = True, stack = 200, ctp_this_round = 0)
+    def __init__(self, name, hand, position_numeric, ctp = 0, is_live = True, stack = 200, ctp_this_round = 0):
+        super().__init__(name, hand, position_numeric, ctp = 0, is_live = True, stack = 200, ctp_this_round = 0)
 
     # inherits all methods from Player class, and overrides act() methods
 
@@ -25,7 +25,7 @@ class ComputerPlayer(Player):
             else:
                 # valid bet is > 2 and <= player stack
                 # special case: BB facing all limps must raise to at least 2 BB's if raising
-                if self.name == "p2" and live_players[-1].name =="p2" and current_bet == 2:
+                if self.position_numeric == 2 and live_players[-1].position_numeric == 2 and current_bet == 2:
                     raise_to = random.randrange(4, self.stack)
                     self.pip(raise_to - self.ctp_this_round)
 

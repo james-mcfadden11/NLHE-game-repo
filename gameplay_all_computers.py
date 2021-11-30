@@ -8,7 +8,7 @@ from HumanPlayer import HumanPlayer
 
 hand = 1
 
-for i in range(1):
+for i in range(1000):
     print("-------------------------")
     print("Hand number " + str(hand))
     print("-------------------------")
@@ -34,13 +34,11 @@ for i in range(1):
     print("pre-flop")
     print("---------------------------------")
 
-    game_state.betting(2)
     game_state.print_status()
+    game_state.betting(2)
 
     game_state.reset_ctp_and_current_bet()
     game_state.reorder_for_flop()
-
-    game_state.print_status()
 
     # deal flop
     game_state.add_card_to_board(deck.deal())
@@ -61,8 +59,8 @@ for i in range(1):
     # turn betting
     print("turn")
     print("---------------------------------")
-    game_state.betting(0)
     game_state.print_status()
+    game_state.betting(0)
 
     game_state.reset_ctp_and_current_bet()
     game_state.add_card_to_board(deck.deal())
@@ -70,10 +68,10 @@ for i in range(1):
     # river betting
     print("river")
     print("---------------------------------")
-    game_state.betting(0)
     game_state.print_status()
+    game_state.betting(0)
 
-    # showdown()
-    # results()
+    game_state.showdown()
+    game_state.results()
 
     hand += 1

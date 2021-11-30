@@ -72,7 +72,7 @@ for i in range(1):
     game_state.print_status()
     game_state.betting(0)
 
-    # showdown()
-    # results()
+    game_state.showdown()
+    game_state.results()
 
     hand += 1
